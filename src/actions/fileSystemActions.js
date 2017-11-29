@@ -29,6 +29,18 @@ export function showPropertiesDialogSuccess(result) {
   return { type: types.SHOW_PROPERTIES_DIALOG_SUCCESS, result };
 }
 
+export function closeNovaSuccess(result) {
+  return { type: types.CLOSE_NOVA_SUCCESS, result };
+}
+
+export function minimizeNovaSuccess(result) {
+  return { type: types.MINIMIZE_NOVA_SUCCESS, result };
+}
+
+export function maximizeNovaSuccess(result) {
+  return { type: types.MAXIMIZE_NOVA_SUCCESS, result };
+}
+
 export function getFileSystemEntries(path) {
   return function(dispatch) {
     return FileSystemApi.getFileSystemEntries(path)
@@ -107,5 +119,29 @@ export function showPropertiesDialog(fileSystemInfo) {
       .catch(error => {
         throw error;
       });
+  };
+}
+
+export function closeNova() {
+  console.log("closeNova");
+  return function(dispatch) {
+    const { ipcRenderer } = window.require("electron");
+    ipcRenderer.send("closeNova", "");
+    dispatch(closeNovaSuccess("Success"));
+  };
+}
+
+export function minimizeNova() {
+  return function(dispatch) {
+    const { ipcRenderer } = window.require("electron");
+    ipcRenderer.send("minimizeNova", "");
+    dispatch(closeNovaSuccess("Success"));
+  };
+}
+export function maximizeNova() {
+  return function(dispatch) {
+    const { ipcRenderer } = window.require("electron");
+    ipcRenderer.send("maximizeNova", "");
+    dispatch(closeNovaSuccess("Success"));
   };
 }

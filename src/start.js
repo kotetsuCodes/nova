@@ -4,8 +4,9 @@ const BrowserWindow = electron.BrowserWindow;
 
 const { ipcMain } = require("electron");
 const shell = require("electron").shell;
-//const edge = require("electron-edge");
+const edge = require("electron-edge");
 const execSync = require("child_process").execSync;
+const fs = require("fs");
 
 const path = require("path");
 const url = require("url");
@@ -15,7 +16,9 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
-    height: 600
+    height: 600,
+    frame: false,
+    useContentSize: true
   });
 
   const startUrl =
@@ -29,6 +32,9 @@ function createWindow() {
   mainWindow.loadURL(startUrl);
 
   mainWindow.webContents.toggleDevTools();
+
+  //initialize start up
+  //initialize();
 
   mainWindow.on("closed", () => {
     mainWindow = null;
@@ -48,6 +54,25 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+//init functions
+function initialize() {
+  let test;
+
+  test = edge.func({
+    assemblyFile:
+      __dirname +
+      "../nova_utilities/NovaUtilities/bin/Release/NovaUtilities.dll",
+    typeName: "NovaUtilities.Nova",
+    methodName: "CheckConfig"
+  });
+
+  let testResult = test(
+    { Path: "settings.json", DefaultConfig: { Blah: "blah" } },
+    true
+  );
+  throw Error(testResult);
+}
 
 //ipc events
 ipcMain.on("requestFileSystemEntries", (event, arg) => {
@@ -103,6 +128,20 @@ ipcMain.on("openFileSystemEntry", (event, arg) => {
   console.log("openFileSystemEntry called with arg:", arg);
 
   shell.openItem(arg);
+});
 
-  //event.returnValue = "Success";
+ipcMain.on("closeNova", (event, arg) => {
+  app.quit();
+});
+
+ipcMain.on("minimizeNova", (event, arg) => {
+  mainWindow.minimize();
+});
+
+ipcMain.on("maximizeNova", (event, arg) => {
+  if (mainWindow.isMaximized()) {
+    mainWindow.unmaximize();
+  } else {
+    mainWindow.maximize();
+  }
 });

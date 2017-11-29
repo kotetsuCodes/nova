@@ -1,0 +1,12 @@
+D:\dev\nova\nova_utilities\NovaUtilities\bin\Release\NovaUtilities.dll
+D:\dev\nova\nova_utilities\NovaUtilities\bin\Release\NovaUtilities.pdb
+D:\dev\nova\nova_utilities\NovaUtilities\obj\Release\NovaUtilities.csprojResolveAssemblyReference.cache
+D:\dev\nova\nova_utilities\NovaUtilities\obj\Release\NovaUtilities.csproj.CoreCompileInputs.cache
+D:\dev\nova\nova_utilities\NovaUtilities\obj\Release\NovaUtilities.dll
+D:\dev\nova\nova_utilities\NovaUtilities\obj\Release\NovaUtilities.pdb
+D:\dev\nova\src\nova_utilities\NovaUtilities\bin\Release\NovaUtilities.dll
+D:\dev\nova\src\nova_utilities\NovaUtilities\obj\Release\NovaUtilities.csprojResolveAssemblyReference.cache
+D:\dev\nova\src\nova_utilities\NovaUtilities\obj\Release\NovaUtilities.csproj.CoreCompileInputs.cache
+D:\dev\nova\src\nova_utilities\NovaUtilities\obj\Release\NovaUtilities.dll
+D:\dev\nova\src\nova_utilities\NovaUtilities\obj\Release\NovaUtilities.pdb
+D:\dev\nova\src\nova_utilities\NovaUtilities\bin\Release\NovaUtilities.pdb

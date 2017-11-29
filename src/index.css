@@ -11,4 +11,5 @@ body {
   font-size: 0.95rem;
   height: 100%;
   cursor: default;
+  overflow: hidden;
 }

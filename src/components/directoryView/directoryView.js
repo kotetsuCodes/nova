@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as fileSystemActions from "../../actions/fileSystemActions";
 import PathBreadCrumb from "../common/PathBreadCrumb";
+import { DirectoryViewContainer } from "../common/DirectoryViewContainer.style";
 import { ColumnHeader } from "../common/columnHeader";
 import Drive from "../common/Drive";
 import Directory from "../common/Directory";
@@ -10,6 +11,14 @@ import File from "../common/File";
 import { ContextMenu } from "../common/contextMenu";
 import styled from "styled-components";
 import FileSystemRowStyle from "../common/FileSystemRow.style";
+import {
+  WindowFrame,
+  TitleBar,
+  NovaIcon,
+  CloseButton,
+  MinimizeButton,
+  MaximizeButton
+} from "../common/WindowFrame.style";
 import _ from "lodash";
 
 const UpDirectory = styled.div`
@@ -22,9 +31,7 @@ const UpDirectoryIcon = styled.i`
 
 class DirectoryView extends React.Component {
   componentWillMount() {
-    this.props.actions.getFileSystemEntries(
-      process.env.REACT_APP_STARTPATH
-    );
+    this.props.actions.getFileSystemEntries(process.env.REACT_APP_STARTPATH);
   }
 
   componentDidMount() {
@@ -160,7 +167,7 @@ class DirectoryView extends React.Component {
     const {
       fileSystem,
       fileSystemEntries,
-      actions: { openFileSystemEntry }
+      actions: { openFileSystemEntry, closeNova, minimizeNova, maximizeNova }
     } = this.props;
     let upDirectory = (
       <div className="row">
@@ -204,6 +211,21 @@ class DirectoryView extends React.Component {
 
     return (
       <div id={this.props.id}>
+        <WindowFrame className="row">
+          <NovaIcon className="col align-self-start">
+            <i className="fa fa-bolt" />
+          </NovaIcon>
+          <TitleBar className="col align-self-start">Nova</TitleBar>
+          <MinimizeButton className="col align-self-end" onClick={minimizeNova}>
+            <i className="fa fa-minus" />
+          </MinimizeButton>
+          <MaximizeButton className="col align-self-end" onClick={maximizeNova}>
+            <i className="fa fa-window-restore" />
+          </MaximizeButton>
+          <CloseButton className="col align-self-end" onClick={closeNova}>
+            <i className="fa fa-times" />
+          </CloseButton>
+        </WindowFrame>
         <PathBreadCrumb
           currentWorkingDirectory={fileSystemEntries.CurrentWorkingDirectory}
         />
@@ -211,37 +233,41 @@ class DirectoryView extends React.Component {
         <ColumnHeader headers={columnHeaders} />
         {upDirectory}
 
-        {fileSystemEntries.Entries.map((item, index) => {
-          if (item.Type === "Drive") {
-            return (
-              <Drive
-                Key={item.Name}
-                driveInfo={item}
-                changeWorkingDirectory={this.changeWorkingDirectory}
-                setSelected={this.setSelected}
-              />
-            );
-          } else if (item.Type === "Directory") {
-            return (
-              <Directory
-                Key={item.Name}
-                directoryInfo={item}
-                changeWorkingDirectory={this.changeWorkingDirectory}
-                setSelected={this.setSelected}
-              />
-            );
-          } else {
-            return (
-              <File
-                Key={item.Name}
-                fileInfo={item}
-                openContextMenu={this.openContextMenu}
-                setSelected={this.setSelected}
-                openFileSystemEntry={openFileSystemEntry}
-              />
-            );
-          }
-        })}
+        <DirectoryViewContainer className="row">
+          <div className="col">
+            {fileSystemEntries.Entries.map((item, index) => {
+              if (item.Type === "Drive") {
+                return (
+                  <Drive
+                    Key={item.Name}
+                    driveInfo={item}
+                    changeWorkingDirectory={this.changeWorkingDirectory}
+                    setSelected={this.setSelected}
+                  />
+                );
+              } else if (item.Type === "Directory") {
+                return (
+                  <Directory
+                    Key={item.Name}
+                    directoryInfo={item}
+                    changeWorkingDirectory={this.changeWorkingDirectory}
+                    setSelected={this.setSelected}
+                  />
+                );
+              } else {
+                return (
+                  <File
+                    Key={item.Name}
+                    fileInfo={item}
+                    openContextMenu={this.openContextMenu}
+                    setSelected={this.setSelected}
+                    openFileSystemEntry={openFileSystemEntry}
+                  />
+                );
+              }
+            })}
+          </div>
+        </DirectoryViewContainer>
 
         <ContextMenu
           visible={fileSystemEntries.ContextMenuVisible}

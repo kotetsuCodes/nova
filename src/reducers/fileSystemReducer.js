@@ -97,6 +97,12 @@ export default function fileSystemEntryReducer(
       };
 
       return showPropertiesDialogObj;
+    case types.CLOSE_NOVA_SUCCESS:
+      return state;
+    case types.MINIMIZE_NOVA_SUCCESS:
+      return state;
+    case types.MAXIMIZE_NOVA_SUCCESS:
+      return state;
     default:
       return fileSystemEntries;
   }
